@@ -174,16 +174,6 @@ function ReviewAuditCard({
             </div>
           ) : null}
 
-          {!canConfirmAnomaly ? (
-            <div className="mt-4 flex gap-2">
-              <button
-                className="rounded-xl bg-[#1890ff] px-3 py-2 text-[11px] font-semibold text-white transition hover:bg-[#1677ff]"
-                type="button"
-              >
-                {meta.actionLabel}
-              </button>
-            </div>
-          ) : null}
         </>
       ) : (
         <button
