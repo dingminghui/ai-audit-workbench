@@ -1,0 +1,12 @@
+.pdf-viewer-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: #6b7280;
+}
+
+.pdf-viewer-spinner-icon {
+  width: 18px;
+  height: 18px;
+}

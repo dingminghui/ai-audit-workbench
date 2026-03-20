@@ -1,0 +1,135 @@
+.region-capture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.region-capture-overlay-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.region-capture-crop-wrapper {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  width: 100%;
+}
+
+.region-capture-crop {
+  --region-capture-handle-color: #38f;
+  --region-capture-border-color: rgba(51, 136, 255, 0.75);
+}
+
+.region-capture-crop .ReactCrop__crop-mask {
+  display: none;
+}
+
+.region-capture-crop .ReactCrop__crop-selection {
+  outline: none;
+  border: 1px dashed var(--region-capture-border-color);
+  animation: none !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+.region-capture-crop .ReactCrop__drag-handle {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 50%;
+  background-color: var(--region-capture-handle-color);
+  border: 1px solid #fff;
+  box-shadow: none;
+}
+
+.region-capture-crop .ReactCrop__drag-handle:focus {
+  background-color: var(--region-capture-handle-color);
+  border-color: #fff;
+  outline: 2px solid var(--region-capture-handle-color);
+  outline-offset: 2px;
+}
+
+.region-capture-addon {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  white-space: nowrap;
+  padding: 2px 4px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.region-capture-addon-group {
+  background: white !important;
+  border-radius: 0;
+}
+
+.region-capture-addon-divider {
+  margin: 0 2px;
+}
+
+.region-capture-cancel-btn,
+.region-capture-copy-btn,
+.region-capture-quote-btn {
+  background-color: white !important;
+  transition: background-color 0.15s ease;
+}
+
+.region-capture-cancel-btn:hover:not(:disabled),
+.region-capture-copy-btn:hover:not(:disabled),
+.region-capture-quote-btn:hover:not(:disabled) {
+  background-color: #f0f0f5 !important;
+}
+
+.region-capture-copy-btn:disabled:hover,
+.region-capture-quote-btn:disabled:hover {
+  background-color: white !important;
+}
+
+.region-capture-cancel-btn .pdf-viewer-control-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.region-capture-copy-btn,
+.region-capture-quote-btn {
+  padding-right: 12px;
+}
+
+.region-capture-quote-btn {
+  margin-left: 2px;
+}
+
+.region-capture-copy-btn:disabled,
+.region-capture-quote-btn:disabled {
+  opacity: 0.5;
+}
+
+.region-capture-copy-btn .pdf-viewer-control-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.region-capture-quote-btn .pdf-viewer-control-icon {
+  width: 15px;
+  height: 15px;
+  font-size: 15px;
+}
+
+.region-capture-addon .pdf-viewer-control-icon {
+  color: inherit;
+}

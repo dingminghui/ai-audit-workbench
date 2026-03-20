@@ -1,0 +1,26 @@
+/* Firefox */
+.pdf-viewer-container {
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+/* WebKit（Chrome / Safari / Edge） */
+.pdf-viewer-container ::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.pdf-viewer-container ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pdf-viewer-container ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 2px;
+}
+
+/* 悬停时保持一致，不触发宽度/背景变化 */
+.pdf-viewer-container ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.18);
+}

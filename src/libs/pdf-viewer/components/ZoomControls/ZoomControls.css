@@ -1,0 +1,42 @@
+.pdf-viewer-zoom-controls-menu {
+  --pdf-viewer-active-color: #38f;
+  z-index: 9999;
+  min-width: 120px;
+  padding: 4px 0;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-viewer-zoom-controls-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #1d2129;
+  cursor: pointer;
+  outline: none;
+}
+
+.pdf-viewer-zoom-controls-menu-item[data-highlighted],
+.pdf-viewer-zoom-controls-menu-item:hover {
+  background: #f5f5f9;
+}
+
+.pdf-viewer-zoom-controls-menu-item--selected {
+  background: color-mix(in srgb, var(--pdf-viewer-active-color, #1890ff) 8%, transparent);
+  color: var(--pdf-viewer-active-color, #1890ff);
+}
+
+.pdf-viewer-zoom-controls-menu-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.pdf-viewer-zoom-controls-menu-icon--selected {
+  color: var(--pdf-viewer-active-color, #1890ff);
+}

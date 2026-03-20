@@ -1,0 +1,7 @@
+.pdf-viewer-sidebar {
+  --pdf-viewer-sidebar-sticky-offset: 0px;
+  width: 140px;
+  flex-shrink: 0;
+  overflow: auto;
+  background: #fff;
+}

@@ -1,0 +1,72 @@
+.pdf-viewer-selection-addon {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  white-space: nowrap;
+  padding: 2px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-viewer-selection-addon-group {
+  background: white !important;
+  border-radius: 0;
+}
+
+.pdf-viewer-selection-addon-divider {
+  margin: 0 2px;
+}
+
+.pdf-viewer-selection-cancel-btn,
+.pdf-viewer-selection-copy-btn,
+.pdf-viewer-selection-quote-btn {
+  background-color: white !important;
+  transition: background-color 0.15s ease;
+}
+
+.pdf-viewer-selection-cancel-btn:hover:not(:disabled),
+.pdf-viewer-selection-copy-btn:hover:not(:disabled),
+.pdf-viewer-selection-quote-btn:hover:not(:disabled) {
+  background-color: #f0f0f5 !important;
+}
+
+.pdf-viewer-selection-copy-btn:disabled:hover,
+.pdf-viewer-selection-quote-btn:disabled:hover {
+  background-color: white !important;
+}
+
+.pdf-viewer-selection-cancel-btn .pdf-viewer-control-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.pdf-viewer-selection-copy-btn,
+.pdf-viewer-selection-quote-btn {
+  padding-right: 12px;
+}
+
+.pdf-viewer-selection-quote-btn {
+  margin-left: 2px;
+}
+
+.pdf-viewer-selection-copy-btn:disabled,
+.pdf-viewer-selection-quote-btn:disabled {
+  opacity: 0.5;
+}
+
+.pdf-viewer-selection-copy-btn .pdf-viewer-control-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.pdf-viewer-selection-quote-btn .pdf-viewer-control-icon {
+  width: 15px;
+  height: 15px;
+  font-size: 15px;
+}
+
+.pdf-viewer-selection-addon .pdf-viewer-control-icon {
+  color: inherit;
+}

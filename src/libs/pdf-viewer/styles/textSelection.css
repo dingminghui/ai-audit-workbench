@@ -1,0 +1,12 @@
+.pdf-viewer-text-selection-target {
+  position: absolute;
+  z-index: 40;
+  transform: translateY(8px);
+}
+
+.pdf-viewer-text-selection-target .pdf-viewer-selection-addon {
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+}

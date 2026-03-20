@@ -1,0 +1,86 @@
+[data-pdf-viewer-controls] {
+  --pdf-viewer-active-color: #38f;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-group,
+[data-pdf-viewer-controls] .pdf-viewer-controls-group {
+  display: flex;
+  align-items: center;
+  background: #f5f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button,
+[data-pdf-viewer-controls] .pdf-viewer-controls-trigger,
+[data-pdf-viewer-controls] .pdf-viewer-controls-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: #f5f5f9;
+  color: #1d2129;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button:disabled,
+[data-pdf-viewer-controls] .pdf-viewer-controls-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button--sm,
+[data-pdf-viewer-controls] .pdf-viewer-controls-btn--sm {
+  width: 24px;
+  height: 24px;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button--text {
+  width: auto;
+  min-width: 28px;
+  padding: 0 10px;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button:hover,
+[data-pdf-viewer-controls] .pdf-viewer-controls-trigger:hover,
+[data-pdf-viewer-controls] .pdf-viewer-controls-btn:hover {
+  background: #e8e8ed;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button:disabled:hover {
+  background: #f5f5f9;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button--active,
+[data-pdf-viewer-controls] .pdf-viewer-controls-trigger--selected {
+  background: color-mix(in srgb, var(--pdf-viewer-active-color, #1890ff) 12%, transparent);
+  color: var(--pdf-viewer-active-color, #1890ff);
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-button:focus-visible,
+[data-pdf-viewer-controls] .pdf-viewer-controls-trigger:focus,
+[data-pdf-viewer-controls] .pdf-viewer-controls-btn:focus {
+  outline: none;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-divider,
+[data-pdf-viewer-controls] .pdf-viewer-controls-divider {
+  width: 1px;
+  height: 14px;
+  background: #e0e0e0;
+  flex-shrink: 0;
+}
+
+[data-pdf-viewer-controls] .pdf-viewer-control-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

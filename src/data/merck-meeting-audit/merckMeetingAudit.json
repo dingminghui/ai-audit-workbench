@@ -1,0 +1,183 @@
+{
+  "sourceFile": "src/assets/默克会议结算审核demo数据 副本.xlsx",
+  "sheetName": "Sheet1",
+  "headers": [
+    "材料类型",
+    "材料图片",
+    "原始素材大小（w,h)",
+    "审核点",
+    "审核结果分级",
+    "审核意见",
+    "高亮坐标区域(x,y,w,h)",
+    "展开文本内容"
+  ],
+  "materials": [
+    {
+      "id": "invitation-letter",
+      "name": "邀请函",
+      "rowRange": {
+        "start": 2,
+        "end": 6
+      },
+      "sourceSize": {
+        "width": 1172,
+        "height": 1512
+      },
+      "image": {
+        "path": "src/data/merck-meeting-audit/images/invitation-letter.png",
+        "sourceWorkbookMedia": "xl/media/image1.jpeg",
+        "anchorCell": "B2"
+      },
+      "auditItems": [
+        {
+          "row": 2,
+          "checkpoint": "是否由邀请函及会议日程两部分组成",
+          "result": "通过",
+          "comment": "已检出邀请函和日程区块",
+          "highlightRegions": [
+            {
+              "x": 81,
+              "y": 354,
+              "width": 1036,
+              "height": 487
+            },
+            {
+              "x": 31,
+              "y": 854,
+              "width": 1091,
+              "height": 576
+            }
+          ],
+          "expandedText": "## 邀请函\n\n尊敬的___专家：\n\n诚邀您参加由公司主办的 YES ONLINE，我们专注于晚期结直肠癌热点话题，\n\n打造理论与实践的辩论平台，期待您的参与。\n\n会议日程：2026年01月22日\n\n19:00-20:25\n\n会议主席：王明蕊 教授\n\n会议讲者：曹洪教授\n\n衣巍教授\n\n淄博市中心医院\n\n付萍教授\n\n黄河大学齐鲁医院\n\n黄河第一医科大学附属省立医院\n\n章区人民医院\n\n## 会议日程\n\n| 时间 | 题目 | 讲者 |\n|------|------|------|\n| 19:00 - 19:05 | 主席致辞 | 王晓蕊 教授 |\n| 19:05 - 19:30 | BRAF突变mCRC靶向治疗新标准 | 曹洪 教授 |\n| 19:30 - 19:55 | 抗EGFR单抗，相似但不相同 | 衣巍 教授 |\n| 20:20 - 20:25 | 会议总结 | 王明蕊 教授 |"
+        },
+        {
+          "row": 3,
+          "checkpoint": "邀请函年月日是否与实际会议日期一致",
+          "result": "通过",
+          "comment": "已验证与实际日期一致",
+          "highlightRegions": [
+            {
+              "x": 107,
+              "y": 607,
+              "width": 307,
+              "height": 44
+            }
+          ],
+          "expandedText": "会议日程：2026年01月22日"
+        },
+        {
+          "row": 4,
+          "checkpoint": "邀请函中是否有讲者姓名，且与申请付费一致",
+          "result": "通过",
+          "comment": "已验证邀请函中姓名与付费申请一致",
+          "highlightRegions": [],
+          "expandedText": null
+        },
+        {
+          "row": 5,
+          "checkpoint": "讲者是否有对应时段，讲课时间≥20分钟（主席不看；评论/点评+讲课≥20分钟）",
+          "result": "不通过",
+          "comment": "讲者“付萍丽“未见对应讲课时段",
+          "highlightRegions": [],
+          "expandedText": "| 时间 | 题目 | 讲者 ||------|------|------|| 19:00 - 19:05 | 主席致辞 | 王晓蕊 教授 || 19:05 - 19:30 | BRAF突变mCRC靶向治疗新标准 | 曹洪 教授 || 19:30 - 19:55 | 抗EGFR单抗，相似但不相同 | 衣巍 教授 || 20:20 - 20:25 | 会议总结 | 王明蕊 教授 |"
+        },
+        {
+          "row": 6,
+          "checkpoint": "邀请函中讲者是否有对应讲课主题",
+          "result": "不通过",
+          "comment": "讲者“付萍丽“未见对应讲课主题",
+          "highlightRegions": [],
+          "expandedText": null
+        }
+      ]
+    },
+    {
+      "id": "offline-signin-sheet",
+      "name": "线下会签到表",
+      "rowRange": {
+        "start": 7,
+        "end": 12
+      },
+      "sourceSize": {
+        "width": 798,
+        "height": 1097
+      },
+      "image": {
+        "path": "src/data/merck-meeting-audit/images/offline-signin-sheet.png",
+        "sourceWorkbookMedia": "xl/media/image2.jpeg",
+        "anchorCell": "B7"
+      },
+      "auditItems": [
+        {
+          "row": 7,
+          "checkpoint": "签到表是否有会议名字及日期",
+          "result": "需人工介入",
+          "comment": "识别到会议名字，未识别到会议日期",
+          "highlightRegions": [
+            {
+              "x": 121,
+              "y": 107,
+              "width": 147,
+              "height": 32
+            }
+          ],
+          "expandedText": "会议名称：2001AN/46 日期：122"
+        },
+        {
+          "row": 8,
+          "checkpoint": "签到表是否有会议负责人签字及签字日期",
+          "result": "不通过",
+          "comment": "识别到会议负责人，未识别到会议日期",
+          "highlightRegions": [
+            {
+              "x": 283,
+              "y": 903,
+              "width": 147,
+              "height": 30
+            }
+          ],
+          "expandedText": "王旭平"
+        },
+        {
+          "row": 9,
+          "checkpoint": "姓名，医院，科室及职称是否都有且填写完整",
+          "result": "通过",
+          "comment": "已验证姓名，医院，科室及职称填写完整",
+          "highlightRegions": [
+            {
+              "x": 77,
+              "y": 148,
+              "width": 657,
+              "height": 140
+            }
+          ],
+          "expandedText": "| 序号 | 会议出席者姓名(正楷) | 医院单位名称 | 科室部门 | 职称 | 会议出席者本人签名确认 |\n|------|----------------------|--------------|----------|------|------------------------|\n| 1 | 郭瑞 | 黄河第一医科大学附属省立医院 | 胃肠外科 | 护士 | 郭瑞 |\n| 2 | 刘伯 | 黄河第一医科大学附属省立医院 | 胃肠外科 | 护士 | 刘伯 |\n| 3 | 邹齐仁 | 黄河第一医科大学附属省立医院 | 胃肠外科 | 主治 | 邹齐仁 |\n| 4 | 周凯风 | 黄河第一医科大学附属省立医院 | 胃肠外科 | 医师 | 周凯风 |\n| 5 | 张荣 | 黄河第一医科大学附属省立医院 | 胃肠外科 | 主治 | 张荣 |"
+        },
+        {
+          "row": 10,
+          "checkpoint": "签到中是否有两家及以上医院参会",
+          "result": "不通过",
+          "comment": "仅识别到一家医院",
+          "highlightRegions": [],
+          "expandedText": "黄河第一医科大学附属省立医院"
+        },
+        {
+          "row": 11,
+          "checkpoint": "签到表中是否有付费HCP签到",
+          "result": "通过",
+          "comment": "已识别到付费HCP签到",
+          "highlightRegions": [],
+          "expandedText": null
+        },
+        {
+          "row": 12,
+          "checkpoint": "讲者与所有听众比例是否满足1：5",
+          "result": "通过",
+          "comment": "已验证讲者与所有听众比例满足1：5",
+          "highlightRegions": [],
+          "expandedText": null
+        }
+      ]
+    }
+  ]
+}
