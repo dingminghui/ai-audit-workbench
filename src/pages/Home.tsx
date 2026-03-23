@@ -2,7 +2,11 @@ import { PreviewWorkspace } from "@/pages/home/components/PreviewWorkspace";
 import { ReviewPanel } from "@/pages/home/components/ReviewPanel";
 import { TaskSidebar } from "@/pages/home/components/TaskSidebar";
 import { materials } from "@/pages/home/homeData";
-import { filterAuditItems, pickDefaultAuditRow, resolveSelectedAuditRow } from "@/pages/home/homeUtils";
+import {
+  filterAuditItems,
+  pickDefaultAuditRow,
+  resolveSelectedAuditRow,
+} from "@/pages/home/homeUtils";
 import type { ResultFilter } from "@/pages/home/types";
 import { useEffect, useMemo, useState } from "react";
 
@@ -66,15 +70,41 @@ export function Home() {
     selectedMaterial && selectedAuditItem
       ? buildAuditItemStorageKey(selectedMaterial.id, selectedAuditItem.row)
       : null;
-  const selectedAuditDecision = selectedAuditItemKey ? auditDecisions[selectedAuditItemKey] ?? null : null;
+  const selectedAuditDecision = selectedAuditItemKey
+    ? (auditDecisions[selectedAuditItemKey] ?? null)
+    : null;
 
+  const dashboardStats = useMemo(
+    () =>
+      visibleMaterials.reduce(
+        (result, material) => {
+          result.materialCount += 1;
+          result.auditItemCount += material.auditItems.length;
+          result.passCount += material.counts.pass;
+          result.failCount += material.counts.fail;
+          result.manualCount += material.counts.manual;
+          return result;
+        },
+        {
+          materialCount: 0,
+          auditItemCount: 0,
+          failCount: 0,
+          manualCount: 0,
+          passCount: 0,
+        },
+      ),
+    [visibleMaterials],
+  );
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f2f7fc_0%,#e7eef6_100%)] p-3 text-slate-900 sm:p-4">
+    <div className="audit-shell min-h-screen p-3 text-slate-900 sm:p-4">
       <h1 className="sr-only">会议结算审核工作台</h1>
 
       <div className="mx-auto flex max-w-[1920px] flex-col gap-3 xl:h-[calc(100vh-32px)] xl:min-h-[860px] xl:flex-row">
         <TaskSidebar
           selectedMaterialId={selectedMaterial?.id ?? ""}
+          totalAuditItems={dashboardStats.auditItemCount}
+          totalFailCount={dashboardStats.failCount}
+          totalManualCount={dashboardStats.manualCount}
           visibleMaterials={visibleMaterials}
           onSelectMaterial={(materialId) => {
             setSelectedMaterialId(materialId);
@@ -124,12 +154,15 @@ function loadAuditDecisions(): Record<string, AuditDecision> {
     if (rawValue) {
       const parsed = JSON.parse(rawValue);
       if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-        return Object.entries(parsed).reduce<Record<string, AuditDecision>>((result, [key, value]) => {
-          if (value === "confirm" || value === "cancel") {
-            result[key] = value;
-          }
-          return result;
-        }, {});
+        return Object.entries(parsed).reduce<Record<string, AuditDecision>>(
+          (result, [key, value]) => {
+            if (value === "confirm" || value === "cancel") {
+              result[key] = value;
+            }
+            return result;
+          },
+          {},
+        );
       }
     }
 

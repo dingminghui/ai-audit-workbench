@@ -28,21 +28,21 @@ export function ReviewPanel({
   onSelectAuditDecision,
   onSelectAuditRow,
 }: ReviewPanelProps) {
-  return (
-    <aside className="flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] bg-white/84 shadow-[0_20px_44px_rgba(15,23,42,0.09)] backdrop-blur-sm xl:w-[360px]">
-      <div className="px-5 py-4">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-semibold tracking-[0.16em] text-slate-700 uppercase">
-              素材审核概览
-            </p>
-            <p className="mt-1 text-[11px] text-slate-400">
-              {selectedMaterial ? `${selectedMaterial.name} · ${selectedMaterial.auditItems.length} 项` : "暂无数据"}
-            </p>
-          </div>
-        </div>
+  const tabCountByFilter: Record<ResultFilter, number> = {
+    all: selectedMaterial?.auditItems.length ?? 0,
+    fail: selectedMaterial?.counts.fail ?? 0,
+    manual: selectedMaterial?.counts.manual ?? 0,
+  };
 
-        <div className="mt-4 flex items-center gap-2">
+  return (
+    <aside className="audit-panel flex w-full shrink-0 flex-col overflow-hidden rounded-[24px] xl:w-[360px]">
+      <div className="border-b border-white/60 px-5 py-4">
+        <p className="audit-kicker text-[color:var(--color-muted)]">审核轨道</p>
+        <h2 className="audit-display mt-2 text-[1.7rem] leading-none text-[color:var(--color-ink)]">
+          审核结论
+        </h2>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           {filterOptions.map((option) => {
             const isActive = option.value === filter;
             return (
@@ -51,25 +51,25 @@ export function ReviewPanel({
                 aria-label={`筛选：${option.label}`}
                 aria-pressed={isActive}
                 className={cx(
-                  "rounded-lg px-3 py-2 text-[11px] font-semibold transition",
+                  "rounded-full border px-3.5 py-2 text-[11px] font-semibold transition",
                   isActive
-                    ? "bg-slate-900 text-white shadow-[0_8px_16px_rgba(15,23,42,0.16)]"
-                    : "bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700",
+                    ? "border-slate-900 bg-slate-900 text-white shadow-[0_10px_20px_rgba(15,23,42,0.16)]"
+                    : "border-white/70 bg-white/55 text-slate-500 hover:bg-white/78 hover:text-slate-800",
                 )}
                 type="button"
                 onClick={() => onFilterChange(option.value)}
               >
-                {option.label}
+                {option.label} {tabCountByFilter[option.value]}
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col bg-white/88">
-        <div className="flex-1 space-y-3 overflow-y-auto p-3">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className="audit-scroll flex-1 space-y-3 overflow-y-auto p-3">
           {filteredAuditItems.length === 0 ? (
-            <div className="rounded-2xl bg-white px-4 py-10 text-center text-[12px] text-slate-500 shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+            <div className="rounded-[22px] border border-white/70 bg-white/76 px-4 py-10 text-center text-[12px] text-slate-500 shadow-[0_12px_28px_rgba(15,23,42,0.06)]">
               当前筛选条件下没有审核项
             </div>
           ) : null}
@@ -110,51 +110,67 @@ function ReviewAuditCard({
   return (
     <section
       className={cx(
-        "rounded-[24px] transition",
+        "relative overflow-hidden rounded-[22px] border transition duration-300",
         isSelected
           ? cx(
-              "p-4 shadow-[0_12px_26px_rgba(15,23,42,0.08)] ring-1 ring-white/70",
+              "border-white/70 p-4 shadow-[0_16px_30px_rgba(15,23,42,0.1)] ring-1 ring-white/60",
               meta.cardClassName,
             )
-          : "bg-white shadow-[0_8px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.08)]",
+          : "border-white/70 bg-white/76 shadow-[0_10px_20px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:shadow-[0_14px_24px_rgba(15,23,42,0.08)]",
       )}
     >
       {isSelected ? (
         <>
-          <div className="flex items-start gap-3">
+          <span
+            aria-hidden="true"
+            className="absolute -right-10 -top-14 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.46)_0%,rgba(255,255,255,0)_72%)]"
+          />
+
+          <div className="relative flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <span className={cx("h-2 w-2 rounded-full", meta.dotClassName)} />
-                <p className="truncate text-[11px] font-semibold tracking-[0.1em] text-slate-500 uppercase">
+                <p className="audit-kicker truncate text-[color:var(--color-muted)]">
                   {meta.summaryLabel}
                 </p>
-                <span
-                  className={cx(
-                    "rounded-lg px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap",
-                    meta.badgeClassName,
-                  )}
-                >
-                  {meta.label}
+                <span className="rounded-full border border-white/70 bg-white/55 px-3 py-1 text-[10px] font-semibold text-slate-500">
+                  第 {String(item.row).padStart(2, "0")} 行
                 </span>
               </div>
-              <h3 className="mt-2 text-pretty text-[18px] font-semibold leading-7 text-slate-900">
+              <h3 className="mt-2.5 text-pretty text-[18px] font-semibold leading-7 text-slate-900">
                 {item.checkpoint}
               </h3>
             </div>
+
+            <span
+              className={cx(
+                "shrink-0 rounded-full px-3 py-1.5 text-[10px] font-semibold whitespace-nowrap shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
+                meta.badgeClassName,
+              )}
+            >
+              {meta.label}
+            </span>
           </div>
 
-          <p className="mt-3 text-[12px] leading-5 text-slate-500">{item.comment}</p>
+          <p className="relative mt-3 text-[12px] leading-5 text-slate-600">{item.comment}</p>
 
-          {item.expandedText ? (
-            <MarkdownBubbleTrigger markdown={item.expandedText} />
-          ) : null}
+          <div className="relative mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-white/70 bg-white/55 px-3 py-1.5 text-[11px] font-medium text-slate-600">
+              标记区域 {item.highlightRegions.length} 处
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/55 px-3 py-1.5 text-[11px] font-medium text-slate-600">
+              审核项编号 {item.row}
+            </span>
+          </div>
+
+          {item.expandedText ? <MarkdownBubbleTrigger markdown={item.expandedText} /> : null}
 
           {canConfirmAnomaly && !isDecisionLocked ? (
-            <div className="mt-4 flex gap-2">
+            <div className="relative mt-4 flex gap-2">
               <button
                 className={cx(
-                  "rounded-xl px-3 py-2 text-[11px] font-semibold transition",
-                  "bg-[#e6f4ff] text-[#0958d9] shadow-[0_6px_16px_rgba(15,23,42,0.06)] hover:bg-[#d0e8ff] hover:text-[#003eb3]",
+                  "rounded-2xl px-4 py-2.5 text-[11px] font-semibold transition",
+                  "bg-[#e8f4f7] text-[#175f6d] shadow-[0_10px_22px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 hover:bg-[#d9edf1]",
                 )}
                 type="button"
                 onClick={() => onSelectAuditDecision("confirm")}
@@ -163,8 +179,8 @@ function ReviewAuditCard({
               </button>
               <button
                 className={cx(
-                  "rounded-xl px-3 py-2 text-[11px] font-semibold transition",
-                  "bg-[#fff1f0] text-[#cf1322] shadow-[0_6px_16px_rgba(15,23,42,0.06)] hover:bg-[#ffe0de] hover:text-[#a8071a]",
+                  "rounded-2xl px-4 py-2.5 text-[11px] font-semibold transition",
+                  "bg-[#fff0ef] text-[#b33a49] shadow-[0_10px_22px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 hover:bg-[#ffe2e0]",
                 )}
                 type="button"
                 onClick={() => onSelectAuditDecision("cancel")}
@@ -174,6 +190,7 @@ function ReviewAuditCard({
             </div>
           ) : null}
 
+          {isDecisionLocked ? <DecisionLockBanner decision={decision} /> : null}
         </>
       ) : (
         <button
@@ -186,6 +203,22 @@ function ReviewAuditCard({
         </button>
       )}
     </section>
+  );
+}
+
+function DecisionLockBanner({ decision }: { decision: AuditDecision | null }) {
+  const label = decision === "confirm" ? "已确认异常" : "已取消异常";
+  const toneClassName =
+    decision === "confirm"
+      ? "border-rose-200 bg-rose-50 text-rose-700"
+      : "border-cyan-200 bg-cyan-50 text-cyan-800";
+
+  return (
+    <div
+      className={`mt-4 rounded-[20px] border px-4 py-3 text-[12px] font-medium ${toneClassName}`}
+    >
+      {label}，该判断已锁定并写入本地决策记录。
+    </div>
   );
 }
 
@@ -231,11 +264,15 @@ function MarkdownBubbleTrigger({ markdown }: { markdown: string }) {
 
   return (
     <div className="mt-4 flex justify-start">
-      <div className="relative inline-flex items-center" onMouseEnter={showBubble} onMouseLeave={hideBubble}>
+      <div
+        className="relative inline-flex items-center"
+        onMouseEnter={showBubble}
+        onMouseLeave={hideBubble}
+      >
         <button
           aria-label="查看异常详情"
           ref={anchorRef}
-          className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-[11px] font-semibold text-slate-600 shadow-[0_8px_18px_rgba(15,23,42,0.08)] transition hover:bg-white hover:text-slate-900"
+          className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-2 text-[11px] font-semibold text-slate-600 shadow-[0_10px_20px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-900"
           type="button"
           onBlur={hideBubble}
           onFocus={showBubble}
@@ -253,10 +290,10 @@ function MarkdownBubbleTrigger({ markdown }: { markdown: string }) {
               onMouseEnter={showBubble}
               onMouseLeave={hideBubble}
             >
-              <div className="relative rounded-[20px] bg-white p-4 shadow-[0_18px_40px_rgba(15,23,42,0.16)] ring-1 ring-slate-200/80">
+              <div className="relative rounded-[24px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(247,242,235,0.96)_100%)] p-4 shadow-[0_24px_50px_rgba(15,23,42,0.18)] ring-1 ring-slate-200/80">
                 <span
                   aria-hidden="true"
-                  className="-right-2 absolute top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 rounded-[3px] bg-white ring-1 ring-slate-200/80"
+                  className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 rounded-[3px] bg-[#faf5ef] ring-1 ring-slate-200/80"
                 />
                 <div className="max-h-[min(60vh,420px)] overflow-auto pr-1">
                   <MarkdownPreview markdown={markdown} />
@@ -274,25 +311,36 @@ function AuditListCard({ item }: { item: AuditItem }) {
   const meta = resultMeta[item.result];
 
   return (
-    <div className="flex items-start justify-between gap-3">
+    <div className="flex items-start gap-3">
+      <span className={cx("mt-1.5 h-2 w-2 shrink-0 rounded-full", meta.dotClassName)} />
+
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className={cx("h-1.5 w-1.5 rounded-full", meta.dotClassName)} />
-          <p className="truncate text-[12px] font-semibold text-slate-800">{item.checkpoint}</p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="line-clamp-2 text-[13px] font-semibold leading-6 text-slate-900">
+            {item.checkpoint}
+          </p>
+          <span className="shrink-0 rounded-full border border-slate-200/80 bg-white/80 px-2.5 py-1 text-[10px] font-semibold text-slate-500">
+            #{String(item.row).padStart(2, "0")}
+          </span>
         </div>
 
-        <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-slate-400">{item.comment}</p>
-      </div>
+        <p className="mt-2 line-clamp-2 text-[12px] leading-5 text-slate-500">{item.comment}</p>
 
-      <div className="shrink-0">
-        <span
-          className={cx(
-            "block rounded-lg px-2 py-1 text-center text-[10px] font-semibold whitespace-nowrap",
-            meta.badgeClassName,
-          )}
-        >
-          {meta.shortLabel}
-        </span>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span
+            className={cx(
+              "block rounded-full px-2.5 py-1 text-center text-[10px] font-semibold whitespace-nowrap shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
+              meta.badgeClassName,
+            )}
+          >
+            {meta.shortLabel}
+          </span>
+          {item.highlightRegions.length > 0 ? (
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-slate-500">
+              {item.highlightRegions.length} 处标记
+            </span>
+          ) : null}
+        </div>
       </div>
     </div>
   );

@@ -14,29 +14,31 @@ export function MarkdownPreview({ markdown }: { markdown: string }) {
 }
 
 const markdownComponents = {
-  h1: createMarkdownHeading("h1", "font-semibold text-lg text-slate-900"),
-  h2: createMarkdownHeading("h2", "font-semibold text-base text-slate-900"),
-  h3: createMarkdownHeading("h3", "font-semibold text-sm text-slate-900"),
+  h1: createMarkdownHeading("h1", "audit-display text-lg text-slate-900"),
+  h2: createMarkdownHeading("h2", "audit-display text-base text-slate-900"),
+  h3: createMarkdownHeading("h3", "text-sm font-semibold text-slate-900"),
   p: ({ children }: ComponentProps<"p">) => (
-    <p className="text-[13px] leading-6 text-slate-500">{children}</p>
+    <p className="text-[13px] leading-6 text-slate-600">{children}</p>
   ),
   ul: ({ children }: ComponentProps<"ul">) => <ul className="space-y-1.5 pl-5">{children}</ul>,
   ol: ({ children }: ComponentProps<"ol">) => <ol className="space-y-1.5 pl-5">{children}</ol>,
   li: ({ children }: ComponentProps<"li">) => <li className="text-[13px] leading-6">{children}</li>,
   blockquote: ({ children }: ComponentProps<"blockquote">) => (
-    <blockquote className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 italic text-slate-500">
+    <blockquote className="rounded-[20px] border border-slate-200 bg-[#f7f2ec] px-4 py-3 italic text-slate-600">
       {children}
     </blockquote>
   ),
   table: ({ children }: ComponentProps<"table">) => (
-    <div className="overflow-x-auto rounded-[18px] border border-slate-200 bg-white">
+    <div className="overflow-x-auto rounded-[18px] border border-slate-200 bg-white/80">
       <table className="min-w-full border-collapse text-left">{children}</table>
     </div>
   ),
-  thead: ({ children }: ComponentProps<"thead">) => <thead className="bg-slate-50">{children}</thead>,
+  thead: ({ children }: ComponentProps<"thead">) => (
+    <thead className="bg-[#f5efe8]">{children}</thead>
+  ),
   tbody: ({ children }: ComponentProps<"tbody">) => <tbody>{children}</tbody>,
   th: ({ children }: ComponentProps<"th">) => (
-    <th className="border-slate-100 border-b px-3 py-2 text-[11px] font-semibold tracking-[0.12em] text-slate-400 uppercase">
+    <th className="border-slate-100 border-b px-3 py-2 text-[11px] font-semibold tracking-[0.12em] text-slate-500 uppercase">
       {children}
     </th>
   ),
@@ -49,7 +51,7 @@ const markdownComponents = {
     </code>
   ),
   pre: ({ children }: ComponentProps<"pre">) => (
-    <pre className="overflow-x-auto rounded-2xl bg-slate-900 px-4 py-3 text-white">{children}</pre>
+    <pre className="overflow-x-auto rounded-2xl bg-[#102131] px-4 py-3 text-white">{children}</pre>
   ),
 };
 

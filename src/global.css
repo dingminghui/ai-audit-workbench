@@ -1,1 +1,144 @@
 @import "tailwindcss";
+
+:root {
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", georgia, serif;
+  --font-body:
+    "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", "SF Mono", consolas, monospace;
+  --color-ink: #0f2233;
+  --color-muted: #5f7286;
+  --color-line: rgba(255, 255, 255, 0.58);
+  --color-panel: rgba(250, 247, 241, 0.76);
+  --color-accent: #1f7a8c;
+}
+
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(196, 225, 234, 0.94), transparent 34%),
+    radial-gradient(circle at top right, rgba(238, 214, 183, 0.48), transparent 26%),
+    linear-gradient(180deg, #dce7ef 0%, #cad9e4 28%, #eff3f6 100%);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.72), transparent 23%),
+    radial-gradient(circle at 82% 12%, rgba(31, 122, 140, 0.13), transparent 26%),
+    linear-gradient(180deg, rgba(236, 242, 247, 0.94) 0%, rgba(222, 232, 239, 0.9) 100%);
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  content: "";
+  opacity: 0.48;
+  background-image:
+    linear-gradient(rgba(15, 34, 51, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 34, 51, 0.018) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at center, black 52%, transparent 100%);
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  opacity: 0.12;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.8px, transparent 0.8px);
+  background-size: 14px 14px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  color: white;
+  background: rgba(31, 122, 140, 0.58);
+}
+
+.audit-shell {
+  position: relative;
+}
+
+.audit-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.04em;
+}
+
+.audit-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.audit-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 244, 237, 0.7) 100%),
+    var(--color-panel);
+  box-shadow:
+    0 24px 70px rgba(20, 34, 48, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(18px);
+}
+
+.audit-panel::before {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  content: "";
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  opacity: 0.8;
+}
+
+.audit-metric-value {
+  font-family: var(--font-display);
+  letter-spacing: -0.06em;
+}
+
+.audit-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 34, 51, 0.2) transparent;
+}
+
+.audit-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.audit-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.audit-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(15, 34, 51, 0.2);
+  background-clip: padding-box;
+}

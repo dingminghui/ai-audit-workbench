@@ -1,9 +1,6 @@
 import { useElementSize } from "@/libs/pdf-viewer/hooks/useElementSize";
 import { hexToRgba } from "@/libs/pdf-viewer/utils/hexToRgba";
-import {
-  MinusIcon,
-  PlusIcon,
-} from "@/pages/home/components/HomeIcons";
+import { FitIcon, MinusIcon, PlusIcon } from "@/pages/home/components/HomeIcons";
 import { resultMeta } from "@/pages/home/homeData";
 import { cx, getFitTransform } from "@/pages/home/homeUtils";
 import type { AuditItem, MaterialViewModel } from "@/pages/home/types";
@@ -34,7 +31,7 @@ export function PreviewWorkspace({ material, previewItem }: PreviewWorkspaceProp
   const previewMeta = previewItem ? resultMeta[previewItem.result] : null;
 
   return (
-    <section className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[28px] bg-white/84 shadow-[0_20px_44px_rgba(15,23,42,0.09)] backdrop-blur-sm">
+    <section className="audit-panel flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[32px]">
       {material && previewItem ? (
         <TransformWrapper
           key={`${material.id}-${Math.round(viewportSize.width)}-${Math.round(viewportSize.height)}`}
@@ -49,33 +46,57 @@ export function PreviewWorkspace({ material, previewItem }: PreviewWorkspaceProp
           panning={{ allowLeftClickPan: true }}
           wheel={{ step: 0.12 }}
         >
-          {({ zoomIn, zoomOut }) => (
+          {({ setTransform, zoomIn, zoomOut }) => (
             <>
-              <header className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 text-[12px] text-slate-500">
-                    <h2 className="truncate font-semibold text-slate-800">核查工作台</h2>
-                    <span className="text-slate-300">/</span>
-                    <span className="truncate text-[12px] font-medium text-slate-500">
-                      {material.name}
-                    </span>
+              <header className="border-b border-white/60 px-4 py-3 sm:px-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="audit-kicker text-[color:var(--color-muted)]">核查画布</p>
+                    <div className="mt-1.5 flex min-w-0 items-center gap-2">
+                      <h2 className="truncate text-[15px] font-semibold text-slate-900">
+                        {material.name}
+                      </h2>
+                      {previewMeta ? (
+                        <span
+                          className={cx(
+                            "shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
+                            previewMeta.badgeClassName,
+                          )}
+                        >
+                          {previewMeta.shortLabel}
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-1 text-slate-500">
-                  <HeaderIconButton label="缩小图片" onClick={() => zoomOut(0.16)}>
-                    <MinusIcon />
-                  </HeaderIconButton>
-                  <HeaderIconButton label="放大图片" onClick={() => zoomIn(0.16)}>
-                    <PlusIcon />
-                  </HeaderIconButton>
+                  <div className="flex shrink-0 items-center gap-2 text-slate-600">
+                    <HeaderIconButton label="缩小图片" onClick={() => zoomOut(0.16)}>
+                      <MinusIcon />
+                    </HeaderIconButton>
+                    <HeaderIconButton label="放大图片" onClick={() => zoomIn(0.16)}>
+                      <PlusIcon />
+                    </HeaderIconButton>
+                    <HeaderIconButton
+                      label="适应画布"
+                      onClick={() =>
+                        setTransform(
+                          fitTransform.positionX,
+                          fitTransform.positionY,
+                          fitTransform.scale,
+                          220,
+                        )
+                      }
+                    >
+                      <FitIcon />
+                    </HeaderIconButton>
+                  </div>
                 </div>
               </header>
 
-              <div className="flex h-0 min-h-0 flex-1 flex-col bg-[linear-gradient(180deg,#f1f7fe_0%,#f8fbff_100%)]">
+              <div className="flex h-0 min-h-0 flex-1 flex-col bg-[linear-gradient(180deg,rgba(229,238,243,0.44)_0%,rgba(243,247,249,0.12)_100%)] p-3">
                 <div
                   ref={viewportRef}
-                  className="relative flex h-full min-h-0 min-w-0 flex-1 items-center justify-center overflow-hidden rounded-[24px] bg-[radial-gradient(circle_at_top,rgba(24,144,255,0.12),transparent_26%),linear-gradient(180deg,#edf6ff_0%,#f7fbff_28%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]"
+                  className="relative flex h-full min-h-0 min-w-0 flex-1 items-center justify-center overflow-hidden rounded-[28px] border border-white/70 bg-[radial-gradient(circle_at_top,rgba(31,122,140,0.18),transparent_24%),linear-gradient(180deg,rgba(226,235,240,0.86)_0%,rgba(241,245,247,0.94)_32%,rgba(236,241,243,0.86)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
                 >
                   <TransformComponent
                     contentStyle={{
@@ -102,29 +123,31 @@ export function PreviewWorkspace({ material, previewItem }: PreviewWorkspaceProp
         </TransformWrapper>
       ) : (
         <>
-          <header className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
+          <header className="border-b border-white/60 px-4 py-3 sm:px-5">
             <div className="min-w-0">
-              <div className="flex items-center gap-2 text-[12px] text-slate-500">
-                <h2 className="truncate font-semibold text-slate-800">核查工作台</h2>
-                <span className="text-slate-300">/</span>
-                <span className="truncate text-[12px] font-medium text-slate-500">未选择任务</span>
-              </div>
+              <p className="audit-kicker text-[color:var(--color-muted)]">核查画布</p>
+              <p className="mt-1.5 text-[13px] text-slate-500">
+                先从左侧选择素材，再进行预览与核查。
+              </p>
             </div>
 
-            <div className="flex items-center gap-1 text-slate-400">
+            <div className="mt-3 flex items-center gap-2 text-slate-400">
               <HeaderIconButton disabled label="缩小图片" onClick={() => undefined}>
                 <MinusIcon />
               </HeaderIconButton>
               <HeaderIconButton disabled label="放大图片" onClick={() => undefined}>
                 <PlusIcon />
               </HeaderIconButton>
+              <HeaderIconButton disabled label="适应画布" onClick={() => undefined}>
+                <FitIcon />
+              </HeaderIconButton>
             </div>
           </header>
 
-          <div className="flex h-0 min-h-0 flex-1 flex-col bg-[linear-gradient(180deg,#f1f7fe_0%,#f8fbff_100%)]">
-          <div className="flex h-full min-h-0 min-w-0 flex-1 items-center justify-center rounded-[24px] bg-white/92 shadow-[0_14px_28px_rgba(15,23,42,0.07)] text-[13px] text-slate-500">
-            当前没有可预览的核查任务
-          </div>
+          <div className="flex h-0 min-h-0 flex-1 flex-col p-3">
+            <div className="flex h-full min-h-0 min-w-0 flex-1 items-center justify-center rounded-[28px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72)_0%,rgba(240,244,246,0.9)_100%)] px-6 text-center text-[13px] leading-6 text-slate-500 shadow-[0_18px_34px_rgba(15,34,51,0.08)]">
+              当前没有可预览的核查任务
+            </div>
           </div>
         </>
       )}
@@ -147,7 +170,7 @@ function PreviewCanvas({
 }) {
   return (
     <div
-      className="relative overflow-hidden rounded-[24px] bg-[#04070c] shadow-[0_22px_50px_rgba(15,23,42,0.24)]"
+      className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#05111c] shadow-[0_28px_70px_rgba(8,18,30,0.34)]"
       style={{
         width: material.sourceSize.width,
         height: material.sourceSize.height,
@@ -163,6 +186,9 @@ function PreviewCanvas({
         src={material.imageUrl}
       />
 
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,17,28,0.04)_0%,rgba(6,17,28,0.32)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0)_42%)]" />
+
       {showHighlights && previewItem.highlightRegions.length > 0 && previewMeta ? (
         <svg
           aria-hidden="true"
@@ -172,7 +198,7 @@ function PreviewCanvas({
           {previewItem.highlightRegions.map((region, index) => (
             <g key={`${previewItem.row}-${index}-${region.x}-${region.y}`}>
               <rect
-                fill={hexToRgba(previewMeta.accentColor, 0.1)}
+                fill={hexToRgba(previewMeta.accentColor, 0.12)}
                 height={region.height}
                 rx="16"
                 stroke={previewMeta.accentColor}
@@ -183,26 +209,35 @@ function PreviewCanvas({
               />
               <rect
                 fill={previewMeta.accentColor}
-                height="30"
-                rx="10"
-                width={Math.min(Math.max(previewItem.checkpoint.length * 14, 88), 240)}
+                height="32"
+                rx="12"
+                width="104"
                 x={region.x}
                 y={Math.max(region.y - 36, 12)}
               />
               <text
                 fill="white"
-                fontFamily="ui-monospace, SFMono-Regular, monospace"
+                fontFamily="IBM Plex Mono, SFMono-Regular, monospace"
                 fontSize="12"
                 fontWeight="700"
                 x={region.x + 10}
                 y={Math.max(region.y - 16, 30)}
               >
-                {`ERR_${String(index + 1).padStart(2, "0")}`}
+                {`标记 ${String(index + 1).padStart(2, "0")}`}
               </text>
             </g>
           ))}
         </svg>
       ) : null}
+
+      <div className="pointer-events-none absolute inset-x-6 bottom-6 flex items-center justify-between gap-4 text-[11px] text-white/78">
+        <span className="line-clamp-1 rounded-full border border-white/15 bg-white/8 px-4 py-2 backdrop-blur-sm">
+          当前检查点聚焦中
+        </span>
+        <span className="shrink-0 rounded-full border border-white/15 bg-white/8 px-4 py-2 font-mono backdrop-blur-sm">
+          第 {String(previewItem.row).padStart(2, "0")} 行
+        </span>
+      </div>
     </div>
   );
 }
@@ -222,10 +257,10 @@ function HeaderIconButton({
     <button
       aria-label={label}
       className={cx(
-        "rounded-xl p-2 transition",
+        "rounded-2xl border border-white/60 bg-white/55 p-2.5 text-slate-600 shadow-[0_10px_22px_rgba(15,34,51,0.06)] transition",
         disabled
           ? "cursor-not-allowed text-slate-300"
-          : "hover:bg-white/70 hover:text-slate-700",
+          : "hover:-translate-y-0.5 hover:bg-white/80 hover:text-slate-900",
       )}
       disabled={disabled}
       type="button"
