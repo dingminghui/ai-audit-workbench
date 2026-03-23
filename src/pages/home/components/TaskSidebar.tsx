@@ -29,9 +29,9 @@ export function TaskSidebar({
             </h2>
           </div>
 
-          <div className="rounded-[18px] border border-white/65 bg-white/58 px-3 py-2 text-right shadow-[0_10px_18px_rgba(15,34,51,0.05)]">
+          <div className="flex items-baseline gap-2 rounded-[18px] border border-white/65 bg-white/58 px-3 py-2 whitespace-nowrap shadow-[0_10px_18px_rgba(15,34,51,0.05)]">
             <p className="audit-kicker text-[color:var(--color-muted)]">素材数</p>
-            <p className="audit-metric-value mt-1 text-[1.55rem] leading-none text-[color:var(--color-ink)]">
+            <p className="audit-metric-value text-[1.55rem] leading-none text-[color:var(--color-ink)]">
               {visibleMaterials.length}
             </p>
           </div>

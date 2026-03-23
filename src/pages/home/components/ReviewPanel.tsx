@@ -37,8 +37,7 @@ export function ReviewPanel({
   return (
     <aside className="audit-panel flex w-full shrink-0 flex-col overflow-hidden rounded-[24px] xl:w-[360px]">
       <div className="border-b border-white/60 px-5 py-4">
-        <p className="audit-kicker text-[color:var(--color-muted)]">审核轨道</p>
-        <h2 className="audit-display mt-2 text-[1.7rem] leading-none text-[color:var(--color-ink)]">
+        <h2 className="audit-display text-[1.7rem] leading-none text-[color:var(--color-ink)]">
           审核结论
         </h2>
 
